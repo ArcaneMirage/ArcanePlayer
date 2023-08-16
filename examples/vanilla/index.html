@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <body style="margin: 0">
+        <div
+            id="am-container"
+            style="
+                width: 640px;
+                height: 480px;
+                margin: auto;
+                border: 1px solid black;
+            "
+        >
+            <div
+                id="arcane-player"
+                data-project-id="999"
+                data-project-key="aaa-bbb-ccc-ddd-eee"
+                data-idle-timeout="30"
+                data-capture-mouse="false"
+                data-enable-events-passthrough="false"
+                data-hide-ui-controls="false"
+            ></div>
+            <script src="https://player.arcanemirage.com/X.X.X/player.js" defer></script>
+        </div>
+        <script>
+            window.addEventListener('ArcanePlayerLoaded', () => {
+                window.ArcanePlayer.onPlayerEvent('ready', () => {
+                    console.log('ready');
+                });
+                window.ArcanePlayer.onPlayerEvent('loading', () => {
+                    console.log('loading');
+                });
+            });
+        </script>
+    </body>
+</html>
