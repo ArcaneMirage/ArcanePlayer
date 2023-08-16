@@ -1,0 +1,24 @@
+{
+    "name": "arcane-player-react",
+    "version": "1.0.0",
+    "description": "",
+    "source": "./index.html",
+    "scripts": {
+        "clean": "rm -rf ./dist",
+        "build": "parcel build ./src/app.tsx"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.4.2",
+        "@types/react": "^18.2.15",
+        "@types/react-dom": "^18.2.7",
+        "parcel": "^2.9.3",
+        "process": "^0.11.10",
+        "typescript": "^5.1.6"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
+}

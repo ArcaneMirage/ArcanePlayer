@@ -19,7 +19,7 @@ const ArcanePlayer = ({ project }) => {
         document.getElementById('am-container').append(script);
 
         window.addEventListener('ArcanePlayerLoaded', () => {
-            const player: ArcanePlayer = window.ArcanePlayer;
+            const player: ArcanePlayer = window['ArcanePlayer'];
             const playOverlayDiv = document.getElementById('playOverlay');
             if (playOverlayDiv) {
                 playOverlayDiv.click();
