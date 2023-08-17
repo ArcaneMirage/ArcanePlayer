@@ -35,6 +35,18 @@ const ArcanePlayer = ({ project }) => {
             player.onPlayerEvent('ready', () => {
                 console.log('ready');
             });
+
+            player.onPlayerEvent('afkWarning', () => {
+                console.log('afkWarning');
+            });
+
+            player.onPlayerEvent('afkWarningDeactivate', () => {
+                console.log('afkWarningDeactivate');
+            });
+
+            player.onPlayerEvent('afkTimedOut', () => {
+                console.log('afkTimedOut');
+            });
         });
     });
     return project ? (

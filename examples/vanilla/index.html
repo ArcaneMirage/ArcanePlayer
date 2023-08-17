@@ -35,6 +35,15 @@
                 window.ArcanePlayer.onPlayerEvent('loading', () => {
                     console.log('loading');
                 });
+                window.ArcanePlayer.onPlayerEvent('afkWarning', () => {
+                    console.log('afkWarning');
+                });
+                window.ArcanePlayer.onPlayerEvent('afkWarningDeactivate', () => {
+                    console.log('afkWarningDeactivate');
+                });
+                window.ArcanePlayer.onPlayerEvent('afkTimedOut', () => {
+                    console.log('afkTimedOut');
+                });
             });
         </script>
     </body>
