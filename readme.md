@@ -10,10 +10,12 @@ To use the React example first run:
 
 The arcane player has the following methods:
 
-`play()`: used to start the stream programatically
+`play: () => void`: used to start the stream programatically
 
-`emitUIEvent`: used to send events to UE
+`emitUIEvent: (descriptor: string | object) => boolean`: used to send events to UE
 
-`onReceiveEvent`: used to add listeners for events coming from UE
+`onReceiveEvent: (name: string, listener: (response: string) => void ) => void`: used to add listeners for events coming from UE
 
-`onPlayerEvent`: used to add listeners for events from the play, this could be `loading | ready | afkWarning | afkWarningDeactivate | afkTimedOut`
+`onPlayerEvent: (name: string, listener: () => void) => void`: used to add listeners for events from the play, this could be 
+
+`loading | ready | afkWarning | afkWarningDeactivate | afkTimedOut`
