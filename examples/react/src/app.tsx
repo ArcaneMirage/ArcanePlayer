@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 interface ArcanePlayer {
+    play: () => void;
     emitUIEvent: (descriptor: string | object) => boolean;
     onReceiveEvent: (
         name: string,
@@ -20,10 +21,7 @@ const ArcanePlayer = ({ project }) => {
 
         window.addEventListener('ArcanePlayerLoaded', () => {
             const player: ArcanePlayer = window['ArcanePlayer'];
-            const playOverlayDiv = document.getElementById('playOverlay');
-            if (playOverlayDiv) {
-                playOverlayDiv.click();
-            }
+
             player.onReceiveEvent('CustomUIEventResponse', (response) => {
                 console.log({ ArcaneResponse: response });
             });
@@ -47,6 +45,8 @@ const ArcanePlayer = ({ project }) => {
             player.onPlayerEvent('afkTimedOut', () => {
                 console.log('afkTimedOut');
             });
+            // For starting the stream programatically call:
+            player.play();
         });
     });
     return project ? (
@@ -58,6 +58,7 @@ const ArcanePlayer = ({ project }) => {
                 data-capture-mouse="false"
                 data-enable-events-passthrough="true"
                 data-hide-ui-controls="true"
+                data-autoplay="false"
             ></div>
     ) : null;
 };

@@ -24,6 +24,7 @@
                 data-capture-mouse="false"
                 data-enable-events-passthrough="false"
                 data-hide-ui-controls="false"
+                data-autoplay="true"
             ></div>
             <script src="https://player.arcanemirage.com/X.X.X/player.js" defer></script>
         </div>
@@ -44,6 +45,8 @@
                 window.ArcanePlayer.onPlayerEvent('afkTimedOut', () => {
                     console.log('afkTimedOut');
                 });
+                // For starting the stream programatically call:
+                window.ArcanePlayer.play();
             });
         </script>
     </body>
