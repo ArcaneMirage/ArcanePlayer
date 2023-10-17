@@ -13,7 +13,7 @@ interface ArcanePlayer {
 const ArcanePlayer = ({ project }) => {
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = 'https://player.arcanemirage.com/X.X.X/player.js';
+        script.src = 'https://embed.arcanemirage.com/aaa-bbb-ccc-ddd-eee/e';
         script.onload = () => {
             window['initArcanePlayer']();
         };
@@ -44,6 +44,15 @@ const ArcanePlayer = ({ project }) => {
 
             player.onPlayerEvent('afkTimedOut', () => {
                 console.log('afkTimedOut');
+            });
+            // Emit event to Unreal Engine
+            player.emitUIEvent('MyCustomEventWithoutData');
+            player.emitUIEvent({ event: 'MyCustomEventWithData', data: {
+                foo: 'bar',
+            } });
+            // Receive event from Unreal Engine
+            player.onReceiveEvent('CustomUIEventResponse', (response) => {
+                console.log({ ArcaneResponse: response });
             });
             // For starting the stream programatically call:
             player.play();

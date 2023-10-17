@@ -26,7 +26,7 @@
                 data-hide-ui-controls="false"
                 data-autoplay="true"
             ></div>
-            <script src="https://player.arcanemirage.com/X.X.X/player.js" defer></script>
+            <script src="https://embed.arcanemirage.com/aaa-bbb-ccc-ddd-eee/e" defer></script>
         </div>
         <script>
             window.addEventListener('ArcanePlayerLoaded', () => {
@@ -44,6 +44,15 @@
                 });
                 window.ArcanePlayer.onPlayerEvent('afkTimedOut', () => {
                     console.log('afkTimedOut');
+                });
+                // Emit event to Unreal Engine
+                window.ArcanePlayer.emitUIEvent('MyCustomEventWithoutData');
+                window.ArcanePlayer.emitUIEvent({ event: 'MyCustomEventWithData', data: {
+                    foo: 'bar',
+                } });
+                // Receive event from Unreal Engine
+                window.ArcanePlayer.onReceiveEvent('CustomUIEventResponse', (response) => {
+                    console.log({ ArcaneResponse: response });
                 });
                 // For starting the stream programatically call:
                 window.ArcanePlayer.play();
