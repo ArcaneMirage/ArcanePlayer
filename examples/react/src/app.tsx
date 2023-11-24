@@ -9,6 +9,7 @@ interface ArcanePlayer {
         listener: (response: string) => void
     ) => void;
     onPlayerEvent: (name: string, listener: () => void) => void;
+    toggleFullscreen: () => boolean;
 }
 const ArcanePlayer = ({ project }) => {
     useEffect(() => {
@@ -56,6 +57,12 @@ const ArcanePlayer = ({ project }) => {
             });
             // For starting the stream programatically call:
             player.play();
+
+            // For entering and exit fullscreen mode, this needs to be called 
+            // after the user has any interaction with the site (click/touch or via button)
+            // or it will fail
+            // returns boolean for the current state of fullscreen element
+            player.toggleFullscreen();
         });
     });
     return project ? (

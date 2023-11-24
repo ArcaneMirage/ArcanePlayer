@@ -56,6 +56,11 @@
                 });
                 // For starting the stream programatically call:
                 window.ArcanePlayer.play();
+                // For entering and exit fullscreen mode, this needs to be called 
+                // after the user has any interaction with the site (click/touch or via button)
+                // or it will fail
+                // returns boolean for the current state of fullscreen element
+                window.ArcanePlayer.toggleFullscreen();
             });
         </script>
     </body>
