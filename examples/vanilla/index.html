@@ -61,6 +61,24 @@
                 // or it will fail
                 // returns boolean for the current state of fullscreen element
                 window.ArcanePlayer.toggleFullscreen();
+
+
+                // Receive file events, only override them if you don't want to use the default button/progress
+                window.ArcanePlayer.onPlayerEvent( 'fileProgress', (progress) => {
+                    console.log('File download progress:', progress);
+                } );
+
+                window.ArcanePlayer.onPlayerEvent( 'fileReceived', (data) => {
+                    // Do what you need with the blob, for example, create a hidden anchor tag
+                    // and download automatically
+                    const a = document.createElement('a');
+                    a.setAttribute('href', URL.createObjectURL(data.file));
+                    a.style.display = 'none';
+                    a.setAttribute('download', `received_file.${data.extension}`);
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                } );
             });
         </script>
     </body>

@@ -8,7 +8,7 @@ interface ArcanePlayer {
         name: string,
         listener: (response: string) => void
     ) => void;
-    onPlayerEvent: (name: string, listener: () => void) => void;
+    onPlayerEvent: (name: string, listener: (data?: any) => void) => void;
     toggleFullscreen: () => boolean;
 }
 const ArcanePlayer = ({ project }) => {
@@ -63,6 +63,23 @@ const ArcanePlayer = ({ project }) => {
             // or it will fail
             // returns boolean for the current state of fullscreen element
             player.toggleFullscreen();
+
+            // Receive file events, only override them if you don't want to use the default button/progress
+            player.onPlayerEvent( 'fileProgress', (progress: number) => {
+                console.log('File download progress:', progress);
+            } );
+
+            player.onPlayerEvent( 'fileReceived', (data: {file: Blob, extension: string}) => {
+                // Do what you need with the blob, for example, create a hidden anchor tag
+                // and download automatically
+                const a = document.createElement('a');
+                a.setAttribute('href', URL.createObjectURL(data.file));
+                a.style.display = 'none';
+                a.setAttribute('download', `received_file.${data.extension}`);
+                document.body.append(a);
+                a.click();
+                a.remove();
+            } );
         });
     });
     return project ? (
