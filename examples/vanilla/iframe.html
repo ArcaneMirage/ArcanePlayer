@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <body style="margin: 0">
+        <!-- if you want to use the UE events from frontend to backend or listen to player 
+            events you need to add your domain as origin in the src query parameters and create a init() 
+            function on the onload event of the iframe -->
+        <iframe
+            id="arcane-player-frame"
+            src="https://embed.arcanemirage.com/aaa-bbb-ccc-ddd-eee?origin=https://yourdomain.com&key=SomeKeyGeneratedOnArcaneMiragePlatform"
+            frameborder="0"
+            width="640px"
+            height="480px"
+            mozallowfullscreen="true"
+            webkitallowfullscreen="true"
+            allow="fullscreen"
+            onload="init()"
+        ></iframe>
+        <script>
+            var iframe = document.getElementById('arcane-player-frame');
+            var iframeDomain = 'https://embed.arcanemirage.com';
+            function fullscreen() {
+                // For entering and exit fullscreen mode, this needs to be called 
+                // after the user has any interaction with the site (click/touch or via button)
+                // or it will fail
+                iframe.contentWindow.postMessage(
+                    { cmd: 'toggleFullscreen' },
+                    iframeDomain
+                );
+            }
+            function play() {
+                // For starting the stream programatically call:
+                iframe.contentWindow.postMessage(
+                    { cmd: 'play' },
+                    iframeDomain
+                );
+            }
+            function sendEventToUE(){
+                // Emit event to Unreal Engine
+                iframe.contentWindow.postMessage(
+                    { cmd: 'emitUIEvent', descriptor: 'GetDevice' },
+                    iframeDomain
+                );
+                iframe.contentWindow.postMessage(
+                    { cmd: 'emitUIEvent', descriptor: {event: 'GetDevice', data: { foo: 'bar'}} },
+                    iframeDomain
+                );
+            }
+            function init() {
+                window.addEventListener(
+                    'message',
+                    (e) => {
+                        // security check to handle events only from arcanemirage origin
+                        if (e.origin !== iframeDomain) return;
+                        const { name, event, data, descriptor, response } =
+                            e.data;
+                        if(event === 'onPlayerEvent'){
+                            console.log('Player event', event, data);
+                            // Receive file events, you'll need to implement a progress bar/download button
+                            if (event === 'fileReceived') {
+                                // Do what you need with the blob, for example, create a hidden anchor tag
+                                // and download automatically
+                                const a = document.createElement('a');
+                                a.setAttribute(
+                                    'href',
+                                    URL.createObjectURL(data.file)
+                                );
+                                a.style.display = 'none';
+                                a.setAttribute(
+                                    'download',
+                                    `received_file.${data.extension}`
+                                );
+                                document.body.append(a);
+                                a.click();
+                                a.remove();
+                            } else if( event === 'fileProgress'){
+                                console.log('File download progress:', data);
+                            }
+                        } else if (event === 'onReceiveEvent') {
+                            // Receive event from Unreal Engine
+                            console.log(descriptor, response);
+                        }
+                        console.log(e.data);
+                    },
+                    false
+                );
+            }
+        </script>
+    </body>
+</html>
