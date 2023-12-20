@@ -42,12 +42,14 @@
             }
             function sendEventToUE(){
                 // Emit event to Unreal Engine
+                // Simple UI Event
                 iframe.contentWindow.postMessage(
-                    { cmd: 'emitUIEvent', descriptor: 'GetDevice' },
+                    { cmd: 'emitUIEvent', descriptor: 'MyCustomEventWithData' },
                     iframeDomain
                 );
+                // UI Event with data
                 iframe.contentWindow.postMessage(
-                    { cmd: 'emitUIEvent', descriptor: {event: 'GetDevice', data: { foo: 'bar'}} },
+                    { cmd: 'emitUIEvent', descriptor: {event: 'MyCustomEventWithData', data: { foo: 'bar'}} },
                     iframeDomain
                 );
             }
@@ -59,7 +61,9 @@
                         if (e.origin !== iframeDomain) return;
                         const { name, event, data, descriptor, response } =
                             e.data;
-                        if(event === 'onPlayerEvent'){
+                        if (name === 'ArcanePlayerLoaded') {
+                            setupEvents();
+                        } else if(event === 'onPlayerEvent'){
                             console.log('Player event', event, data);
                             // Receive file events, you'll need to implement a progress bar/download button
                             if (event === 'fileReceived') {
@@ -81,14 +85,52 @@
                             } else if( event === 'fileProgress'){
                                 console.log('File download progress:', data);
                             }
-                        } else if (event === 'onReceiveEvent') {
+                        } else if (name === 'onReceiveEvent') {
                             // Receive event from Unreal Engine
-                            console.log(descriptor, response);
+                            if (eventListeners[descriptor]) {
+                                eventListeners[descriptor](response);
+                            }
                         }
                         console.log(e.data);
                     },
                     false
                 );
+            }
+            // Example on how to listen to UE Events:
+            // Create a function for each response you want to handle
+            function onMySimpleEventResponse(response) {
+                console.log(response);
+            }
+            function onMyCustomEventResponse(response) {
+                const data = JSON.parse(response);
+                console.log(data);
+            }
+            // Create a map with the descriptor as key and the function as value
+            // If the response from UE is a json, you'll to set the descriptor
+            // of the listener as 'event.' + name or 'cmd.' + name, this response will
+            // look like this:
+            /*
+                {
+                    "event": "MyCustomEventWithData",
+                    "data": {
+                        "foo": "bar"
+                    }
+                }
+            */
+            var eventListeners = {
+                'MySimpleEvent': onMySimpleEventResponse,
+                'event.MyCustomEventWithData': onMyCustomEventResponse
+            };
+            function setupEvents() {
+                Object.keys(eventListeners).forEach((descriptor) => {
+                    iframe.contentWindow.postMessage(
+                            {
+                                cmd: 'onReceiveEvent',
+                                descriptor
+                            },
+                            iframeDomain
+                        );
+                });
             }
         </script>
     </body>
