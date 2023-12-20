@@ -63,7 +63,7 @@
                             e.data;
                         if (name === 'ArcanePlayerLoaded') {
                             setupEvents();
-                        } else if(event === 'onPlayerEvent'){
+                        } else if(name === 'onPlayerEvent'){
                             console.log('Player event', event, data);
                             // Receive file events, you'll need to implement a progress bar/download button
                             if (event === 'fileReceived') {
