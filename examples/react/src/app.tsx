@@ -11,10 +11,10 @@ interface ArcanePlayer {
     onPlayerEvent: (name: string, listener: (data?: any) => void) => void;
     toggleFullscreen: () => boolean;
 }
-const ArcanePlayer = ({ project }) => {
+const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = 'https://embed.arcanemirage.com/aaa-bbb-ccc-ddd-eee/e';
+        script.src = 'https://embed.arcanemirage.com/'+project.key+'/e';
         script.onload = () => {
             window['initArcanePlayer']();
         };
@@ -85,8 +85,8 @@ const ArcanePlayer = ({ project }) => {
     return project ? (
             <div
                 id="arcane-player"
-                data-project-id={project.arcaneProjectId}
-                data-project-key={project.arcaneProjectKey}
+                data-project-id={project.id}
+                data-project-key={project.key}
                 data-idle-timeout="200"
                 data-capture-mouse="false"
                 data-enable-events-passthrough="true"
