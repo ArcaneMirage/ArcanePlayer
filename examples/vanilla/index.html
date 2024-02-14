@@ -51,7 +51,21 @@
                     foo: 'bar',
                 } });
                 // Receive event from Unreal Engine
-                window.ArcanePlayer.onReceiveEvent('CustomUIEventResponse', (response) => {
+                window.ArcanePlayer.onReceiveEvent('MyCustomEventWithData', (response) => {
+                    console.log({ ArcaneResponse: response });
+                });
+                // If the response from UE is a json, you'll to set the descriptor
+                // of the listener as 'event.' + name or 'cmd.' + name, this response will
+                // look like this:
+                /*
+                    {
+                        "event": "MyCustomEventWithData",
+                        "data": {
+                            "foo": "bar"
+                        }
+                    }
+                */
+                window.ArcanePlayer.onReceiveEvent('event.MyCustomEventWithData', (response) => {
                     console.log({ ArcaneResponse: response });
                 });
                 // For starting the stream programatically call:

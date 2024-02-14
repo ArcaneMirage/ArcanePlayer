@@ -55,6 +55,20 @@ const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
             player.onReceiveEvent('CustomUIEventResponse', (response) => {
                 console.log({ ArcaneResponse: response });
             });
+            // If the response from UE is a json, you'll to set the descriptor
+            // of the listener as 'event.' + name or 'cmd.' + name, this response will
+            // look like this:
+            /*
+                {
+                    "event": "MyCustomEventWithData",
+                    "data": {
+                        "foo": "bar"
+                    }
+                }
+            */
+            player.onReceiveEvent('event.MyCustomEventWithData', (response) => {
+                console.log({ ArcaneResponse: response });
+            });
             // For starting the stream programatically call:
             player.play();
 
