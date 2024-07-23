@@ -97,6 +97,7 @@ const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
         });
     });
     return project ? (
+        <>
             <div
                 id="arcane-player"
                 data-project-id={project.id}
@@ -106,7 +107,14 @@ const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
                 data-enable-events-passthrough="true"
                 data-hide-ui-controls="true"
                 data-autoplay="false"
-            ></div>
+                ></div>
+            <button onClick={() =>{
+                const player: ArcanePlayer = window['ArcanePlayer'];
+                player.emitUIEvent({ event: 'MyCustomEventWithData', data: {
+                    foo: 'bar',
+                } });    
+            }}>fire event</button>
+            </>
     ) : null;
 };
 export { ArcanePlayer };
