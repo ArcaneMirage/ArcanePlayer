@@ -4,6 +4,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <style>
+            #arcane-player-frame.fullscreen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100dvh;
+            }
+        </style>
     </head>
 
     <body style="margin: 0">
@@ -24,6 +33,11 @@
         <script>
             var iframe = document.getElementById('arcane-player-frame');
             var iframeDomain = 'https://embed.arcanemirage.com';
+            var isIos;
+            window.onload = () => {
+                init();
+                isIos = navigator && /iPhone|iPod/i.test(navigator.userAgent);
+            };
             function fullscreen() {
                 // For entering and exit fullscreen mode, this needs to be called 
                 // after the user has any interaction with the site (click/touch or via button)
@@ -65,6 +79,11 @@
                             setupEvents();
                         } else if(name === 'onPlayerEvent'){
                             console.log('Player event', event, data);
+                            if(event == 'toggleFullscreen') {
+                                if (isIos) {
+                                    document.getElementById('arcane-player-frame').classList.toggle('fullscreen');
+                                }
+                            }
                             // Receive file events, you'll need to implement a progress bar/download button
                             if (event === 'fileReceived') {
                                 // Do what you need with the blob, for example, create a hidden anchor tag
