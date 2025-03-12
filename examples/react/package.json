@@ -4,21 +4,23 @@
     "description": "",
     "source": "./index.html",
     "scripts": {
-        "clean": "rm -rf ./dist",
-        "build": "parcel build ./src/app.tsx"
+        "clean": "rimraf ./dist",
+        "build": "rimraf .parcel-cache && parcel build ./src/app.tsx",
+        "start": "npx serve"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "^20.4.2",
-        "@types/react": "^18.2.15",
-        "@types/react-dom": "^18.2.7",
-        "parcel": "^2.9.3",
+        "@types/node": "^22.13.10",
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "parcel": "^2.13.3",
         "process": "^0.11.10",
-        "typescript": "^5.1.6"
+        "rimraf": "^6.0.1",
+        "typescript": "^5.8.2"
     },
     "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
     }
 }

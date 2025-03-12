@@ -11,7 +11,7 @@ interface ArcanePlayer {
     onPlayerEvent: (name: string, listener: (data?: any) => void) => void;
     toggleFullscreen: () => boolean;
 }
-const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
+const ArcanePlayer = ({ project }: {project: { key: string, id: number, token?: string}}) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = 'https://embed.arcanemirage.com/'+project.key+'/e';
@@ -102,11 +102,8 @@ const ArcanePlayer = ({ project }: {project: { key: string, id: number}}) => {
                 id="arcane-player"
                 data-project-id={project.id}
                 data-project-key={project.key}
-                data-idle-timeout="200"
-                data-capture-mouse="false"
-                data-enable-events-passthrough="true"
-                data-hide-ui-controls="true"
-                data-autoplay="false"
+                data-token={project.token}
+                data-enable-events-passthrough={true}
                 ></div>
             <button onClick={() =>{
                 const player: ArcanePlayer = window['ArcanePlayer'];
@@ -125,7 +122,8 @@ document.body.onload = function () {
         <ArcanePlayer
             project={{
                 id: 999,
-                key: 'aaa-bbb-ccc-ddd-eee'
+                key: 'aaa-bbb-ccc-ddd-eee',
+                token: "xxx"
             }}
         />
     );
