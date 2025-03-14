@@ -24,10 +24,11 @@
                 data-capture-mouse="false"
                 data-enable-events-passthrough="true"
                 data-hide-ui-controls="false"
-                data-autoplay="true"
+                data-autoplay="false"
             ></div>
             <script src="https://embed.arcanemirage.com/aaa-bbb-ccc-ddd-eee/e" defer></script>
         </div>
+        <button onclick="window.ArcanePlayer.toggleFullscreen()">fullscreen</button>
         <script>
             window.addEventListener('ArcanePlayerLoaded', () => {
                 window.ArcanePlayer.onPlayerEvent('ready', () => {
@@ -69,12 +70,12 @@
                     console.log({ ArcaneResponse: response });
                 });
                 // For starting the stream programatically call:
-                window.ArcanePlayer.play();
+                // window.ArcanePlayer.play();
                 // For entering and exit fullscreen mode, this needs to be called 
                 // after the user has any interaction with the site (click/touch or via button)
                 // or it will fail
                 // returns boolean for the current state of fullscreen element
-                window.ArcanePlayer.toggleFullscreen();
+                // window.ArcanePlayer.toggleFullscreen();
 
 
                 // Receive file events, only override them if you don't want to use the default button/progress
